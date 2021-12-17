@@ -1,0 +1,124 @@
+{% extends 'store/base.html' %}
+{% load static%}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+<div class="container">
+  <div class="border rounded p-4 m-4">
+    <div class="container tm-mt-big tm-mb-big">
+      <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="tm-block-title d-inline-block">Add Product</h2>
+              </div>
+            </div>
+            <div class="row tm-edit-product-row">
+              <div class="col-xl-6 col-lg-6 col-md-12">
+                <form action="/product_add/" method="post" class="tm-edit-product-form">
+                   {% csrf_token %}
+                  <div class="form-group mb-3">
+                    <label
+                      for="name"
+                      >Product Name
+                    </label>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      class="form-control validate"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mb-3">
+
+                  </div>
+                  <div class="form-group mb-3">
+                    <label
+                      for="category"
+                      >Category</label
+                    >
+                    <select
+                      class="custom-select tm-select-accounts"
+                      id="category" name="category"
+                    >
+                      <option selected>Select category</option>
+                      {% for i in category %}
+                      <option value="{{i.name}}">{{i.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="row">
+                        <div class="form-group mb-3 col-xs-12 col-sm-6">
+                          <label
+                            for="Price"
+                            >Price
+                          </label>
+                          <input
+                            id="Price"
+                            name="Price"
+                            type="text"
+                            class="form-control validate"
+                            required
+                          />
+                        </div>
+                        <div class="form-group mb-3 col-xs-12 col-sm-6">
+                          <label
+                            for="stock"
+                            >Units In Stock
+                          </label>
+                          <input
+                            id="stock"
+                            name="stock"
+                            type="text"
+                            class="form-control validate"
+                            required
+                          />
+                        </div>
+                  </div>
+
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+
+                <div class="custom-file mt-3 mb-3">
+                  <img id="image" style="height:200px;width:200px;margin:10px"/>
+                  <input id="fileInput" type="file" name="fileInput" style="display:none;" />
+                  <input
+                    type="button"
+                    class="btn btn-primary btn-block mx-auto"
+                    value="UPLOAD PRODUCT IMAGE"
+                    onclick="document.getElementById('fileInput').click();"
+                  />
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+document.getElementById("fileInput").onchange = function () {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
+    };
+
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+};
+</script>
+<head>
+<script  src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script >
+</head>
+{% endblock %}
+<tdsa><img style="height: 80px;" class="rounded-circle" src="{{order.image.url}}" alt=""></tdsa>

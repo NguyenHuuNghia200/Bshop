@@ -1,0 +1,168 @@
+{% extends 'store/base.html' %}
+{% load static%}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+<div class="container mt-5">
+      <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-products">
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">PRODUCT NAME</th>
+                    <th scope="col">UNIT SOLD</th>
+                    <th scope="col">IN STOCK</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for order in page %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+
+                    <td >
+                        <a href="/product_edit?name1={{order.name}}">{{order.name}}</a>
+                    </td>
+                    <td>{{order.price|currency}}</td>
+                    <td> {{order.instock}}</td>
+                    <td>{{order.category}}</td>
+                    <td>
+                      <a href="/product_delete?name={{order.name}}" >
+                        <i style='font-size:24px' class='far'>&#xf2ed;</i>
+                      </a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+              </table>
+
+            </div>
+            <nav class="mt-4 container1" aria-label="Page navigation sample" style=" margin: auto">
+					<ul class="pagination">
+						{% if page.has_previous %}
+						<li class="page-item">
+							<a class="page-link" href="{% url 'store:manage1' %}?page=1">First</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link"
+								href="{% url 'store:manage1' %}?page={{page.previous_page_number}}">Previous</a>
+						</li>
+                        {% else %}
+						<li class="page-item disabled">
+							<a class="page-link" href="#">First</a>
+						</li>
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Previous</a>
+						</li>
+						{% endif %}
+
+						{% for i in page.paginator.page_range %}
+
+						{% if i == page.number %}
+						<li class="page-item active">
+							<a class="page-link" href="{% url 'store:manage1' %}?page={{ i }}">{{ i }}</a>
+						</li>
+						{% else %}
+						<li class="page-item">
+							<a class="page-link" href="{% url 'store:manage1' %}?page={{ i }}">{{ i }}</a>
+						</li>
+						{% endif %}
+
+						{% endfor %}
+
+						{% if page.has_next %}
+                        <li class="page-item">
+							<a class="page-link" href="{% url 'store:manage' %}?page={{page.next_page_number}}">Next</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link"
+								href="{% url 'store:manage' %}?page={{ page.paginator.num_pages }}">Last</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Next</a>
+						</li>
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Last</a>
+						</li>
+                        {% endif %}
+					</ul>
+            </nav>
+            <!-- table container -->
+            <a
+              href="/product_add"
+              class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
+            <h2 class="tm-block-title">Product Categories</h2>
+            <div class="tm-product-table-container">
+              <table class="table tm-table-small tm-product-table">
+                <tbody>
+
+                {% for i in category %}
+                <tr>
+                    <td class="tm-product-name">{{i.name}}</td>
+                    <td class="text-center">
+                      <a href="#" class="tm-product-delete-link">
+                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- table container -->
+            <button class="btn btn-primary btn-block text-uppercase mb-3">
+              <a href="/product_add">Add new category</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<style>
+    .container1 {
+  width: 500px;
+  margin: auto;
+  text-align: center;
+}
+.pagination {
+  width: 400px;
+  margin-left: 50px;
+}
+.pagination a {
+  display: block;
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
+</style>
+</head>
+
+{% endblock %}
